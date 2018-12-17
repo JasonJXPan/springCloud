@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 1101
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/eureka/
+
+zuul:
+  routes:
+    pjx-eureka-client1:
+      path: /pjx-eureka-client1/**
+      serviceId: pjx-eureka-client
+    pjx-eureka-client: /pjx-eureka-client2/**
+
+
+#  zuul.routes.<route>.path  zuul.routes.user-service.path=/user-service/**
+#  zuul.routes.<route>.serviceId  zuul.routes.user-service.serviceId=user-service
+#等同于
+# zuul.routes.<serviceId>=<path> 即 zuul.routes.user-service=/user-service/**
+

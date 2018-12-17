@@ -1,0 +1,5 @@
+在windows中启动
+前提- 将consul.exe配置到环境变量中
+启动命令： consul agent -dev
+
+http://localhost:8500/ui/
