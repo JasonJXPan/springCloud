@@ -56,7 +56,11 @@ public class AccessFilter extends ZuulFilter {
             return null;
         }
         logger.info("access token ok");
-
+//        throwException();
         return null;
+
+    }
+    public void throwException(){
+        throw new RuntimeException("故意的");
     }
 }

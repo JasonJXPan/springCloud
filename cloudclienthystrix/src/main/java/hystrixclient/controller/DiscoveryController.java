@@ -1,6 +1,8 @@
 package hystrixclient.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -48,6 +50,10 @@ public class DiscoveryController {
 
         //fallbackMethod 的值为fallback之后的方法名 必须保证方法名存在，并且当前方法的参数和fallback的方法参数以及返回值完全一致
         @HystrixCommand(fallbackMethod = "fallBack")
+        //请求合并器
+//        @HystrixCollapser(batchMethod = "findAll", collapserProperties = {
+//                @HystrixProperty(name="timerDelayInMilliseconds", value = "100")
+//        })
         public String consumer() {
             return loadBalanceRestTemplate.getForObject("http://pjx-eureka-client/dc", String.class);
         }
