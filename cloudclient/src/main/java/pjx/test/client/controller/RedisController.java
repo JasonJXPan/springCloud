@@ -3,11 +3,13 @@ package pjx.test.client.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pjx.test.client.vo.UserVO;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,6 +25,9 @@ public class RedisController {
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
+    @Resource(name="redisTemplate")
+    private ListOperations<Object, Object> listOperations;
+
     @GetMapping("/redis_ini")
     public String initialTest() {
         Object user1 = redisTemplate.boundValueOps("user1").get();
@@ -32,7 +37,8 @@ public class RedisController {
             user1 = redisTemplate.boundValueOps("user1").get();
         }
         logger.info("从缓存读取 user1={}", user1);
-
+        redisTemplate.opsForList().leftPush("","");
+        redisTemplate.boundListOps("").leftPush("");
         return user1.toString();
     }
 }
